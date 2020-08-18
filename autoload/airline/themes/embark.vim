@@ -1,3 +1,7 @@
+" vim: et ts=2 sts=2 sw=2 tw=80
+
+scriptencoding utf-8
+
 " Colors
 let s:black           = { "gui": "#212121", "cterm": "0", "cterm16" : "0" }
 let s:medium_gray     = { "gui": "#767676", "cterm": "243", "cterm16" : "243" }
@@ -43,7 +47,63 @@ let s:bg_dark         = s:eclipse
 let s:norm            = s:stardust
 let s:norm_subtle     = s:cosmos
 let s:visual          = s:bg_subtle
+
+" Airline themes are generated based on the following concepts:
+"   * The section of the status line, valid Airline statusline sections are:
+"       * airline_a (left most section)
+"       * airline_b (section just to the right of airline_a)
+"       * airline_c (section just to the right of airline_b)
+"       * airline_x (first section of the right most sections)
+"       * airline_y (section just to the right of airline_x)
+"       * airline_z (right most section)
+"   * The mode of the buffer, as reported by the :mode() function.  Airline 
+"     converts the values reported by mode() to the following:
+"       * normal
+"       * insert
+"       * replace
+"       * visual
+"       * inactive
+"       * terminal
+"       The last one is actually no real mode as returned by mode(), but used by
+"       airline to style inactive statuslines (e.g. windows, where the cursor
+"       currently does not reside in).
+"   * In addition to each section and mode specified above, airline themes 
+"     can also specify overrides.  Overrides can be provided for the following
+"     scenarios:
+"       * 'modified'
+"       * 'paste'
+"
+" Airline themes are specified as a global viml dictionary using the above
+" sections, modes and overrides as keys to the dictionary.  The name of the
+" dictionary is significant and should be specified as:
+"   * g:airline#themes#<theme_name>#palette
+" where <theme_name> is substituted for the name of the theme.vim file where the
+" theme definition resides.  Airline themes should reside somewhere on the
+" 'runtimepath' where it will be loaded at vim startup, for example:  
+"   * autoload/airline/themes/theme_name.vim
+"
+" For this, the embark.vim, theme, this is defined as
 let g:airline#themes#embark#palette = {}
+
+" Keys in the dictionary are composed of the mode, and if specified the
+" override.  For example:
+"   * g:airline#themes#embark#palette.normal 
+"       * the colors for a statusline while in normal mode
+"   * g:airline#themes#embark#palette.normal_modified 
+"       * the colors for a statusline while in normal mode when the buffer has
+"         been modified
+"   * g:airline#themes#embark#palette.visual 
+"       * the colors for a statusline while in visual mode
+"
+" Values for each dictionary key is an array of color values that should be
+" familiar for colorscheme designers:
+"   * [guifg, guibg, ctermfg, ctermbg, opts]
+" See "help attr-list" for valid values for the "opt" value.
+"
+" Each theme must provide an array of such values for each airline section of
+" the statusline (airline_a through airline_z).  A convenience function, 
+" airline#themes#generate_color_map() exists to mirror airline_a/b/c to
+" airline_x/y/z, respectively.
 
 let s:N1   = [ s:bg_subtle.gui, s:cyan.gui, s:bg_subtle.cterm16, s:cyan.cterm16 ]
 let s:N2   = [ s:bg_subtle.gui, s:dark_cyan.gui, s:bg_subtle.cterm16, s:dark_cyan.cterm16 ]
